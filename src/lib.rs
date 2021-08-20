@@ -73,7 +73,6 @@ mod tests {
     use super::*;
 
     #[test]
-
     fn it_gets_word_count() {
         let mut demo_data = HashMap::new();
         demo_data.insert("Two".to_string(), 2);
@@ -94,5 +93,20 @@ mod tests {
 
         assert_eq!(*largest, String::from("Two"));
         assert_eq!(*max_count as i32, 2 as i32);
+    }
+
+    #[test]
+    fn it_sorts_hashmap() {
+        let mut map = HashMap::new();
+        map.insert("One", 1);
+        map.insert("Two", 2);
+
+        let mut sorted_counts = sort_hashmap(&map);
+        sorted_counts.reverse();
+        let demo_counts = [("One", 1), ("Two", 2)];
+
+        assert_eq!(demo_counts.len(), sorted_counts.len());
+        assert_eq!(demo_counts[0].1, *sorted_counts[1].1);
+        assert_eq!(demo_counts[1].0, *sorted_counts[0].0);
     }
 }
