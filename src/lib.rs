@@ -4,19 +4,17 @@ use std::fs::File;
 use std::io::prelude::*;
 
 pub struct Config {
-    pub query: String,
     pub filename: String,
 }
 
 impl Config {
     pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
+        if args.len() < 2 {
             return Err("not enough arguments");
         }
-        let query = args[1].clone();
-        let filename = args[2].clone();
+        let filename = args[1].clone();
 
-        Ok(Config { query, filename })
+        Ok(Config { filename })
     }
 }
 
@@ -33,7 +31,6 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 pub fn get_word_count(contents: &str) -> HashMap<&str, u32> {
     let mut map = HashMap::new();
-    println!("with text: \n {}", contents);
 
     for word in contents.split_whitespace() {
         let count = map.entry(word).or_insert(0);

@@ -12,8 +12,7 @@ fn main() {
         process::exit(1);
     });
 
-    println!("searching for {}", config.query);
-    println!("filename {}", config.filename);
+    println!("filename: {}", config.filename);
 
     if let Err(e) = word_counter::run(config) {
         println!("Application error: {}", e);
