@@ -19,15 +19,23 @@ impl Config {
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    // Read contents from file
     let mut f = File::open(config.filename)?;
     let mut contents = String::new();
     f.read_to_string(&mut contents)?;
 
+    // Get word with counts
     let counts = get_word_count(&contents);
-    let (word, max_count) = get_max_word(&counts).unwrap();
 
-    println!("'{}' is counted maximum {} times", word, max_count);
-    // println!("count is {:?}", counts);
+    // Get maximum counted word
+    let (largest, max_count) = get_max_word(&counts).unwrap();
+
+    // Sort the result in descending order
+    let mut sorted = sort_hashmap(&counts);
+    sorted.reverse();
+
+    println!("'{}' is counted maximum {} times", largest, max_count);
+    println!("total counts {:?}", sorted);
 
     Ok(())
 }
@@ -41,6 +49,16 @@ pub fn get_word_count(contents: &str) -> HashMap<&str, u32> {
     }
 
     map
+}
+
+pub fn sort_hashmap<K, V>(map: &HashMap<K, V>) -> Vec<(&K, &V)>
+where
+    V: Ord,
+{
+    let mut sorted: Vec<_> = map.iter().collect();
+    sorted.sort_by_key(|a| a.1);
+
+    sorted
 }
 
 pub fn get_max_word<K, V>(map: &HashMap<K, V>) -> Option<(&K, &V)>
