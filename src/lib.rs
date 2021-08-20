@@ -67,3 +67,20 @@ where
 {
     map.iter().max_by(|a, b| a.1.cmp(&b.1)).map(|(k, v)| (k, v))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+
+    fn it_gets_word_count() {
+        let mut demo_data = HashMap::new();
+        demo_data.insert("Two".to_string(), 2);
+
+        let contents = "Two Two";
+        let counts = get_word_count(&contents);
+
+        assert_eq!(counts["Two"], 2);
+    }
+}
