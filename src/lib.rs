@@ -83,4 +83,16 @@ mod tests {
 
         assert_eq!(counts["Two"], 2);
     }
+
+    #[test]
+    fn it_gets_max_word() {
+        let mut demo_counts = HashMap::new();
+        demo_counts.insert("One", 1);
+        demo_counts.insert("Two", 2);
+
+        let (largest, max_count) = get_max_word(&demo_counts).unwrap();
+
+        assert_eq!(*largest, String::from("Two"));
+        assert_eq!(*max_count as i32, 2 as i32);
+    }
 }
