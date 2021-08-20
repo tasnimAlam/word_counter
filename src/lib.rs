@@ -35,7 +35,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     sorted.reverse();
 
     println!("'{}' is counted maximum {} times", largest, max_count);
-    println!("total counts {:?}", sorted);
+    print_counts(sorted);
 
     Ok(())
 }
@@ -66,6 +66,13 @@ where
     V: Ord,
 {
     map.iter().max_by(|a, b| a.1.cmp(&b.1)).map(|(k, v)| (k, v))
+}
+
+// FIXME: need to check "&&str"
+pub fn print_counts(vec: Vec<(&&str, &u32)>) {
+    for (key, value) in vec {
+        println!("{}:{}", key, value);
+    }
 }
 
 #[cfg(test)]
