@@ -24,8 +24,11 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     f.read_to_string(&mut contents)?;
 
     let counts = get_word_count(&contents);
+    let (word, max_count) = get_max_word(&counts).unwrap();
 
-    println!("count is {:?}", counts);
+    println!("'{}' is counted maximum {} times", word, max_count);
+    // println!("count is {:?}", counts);
+
     Ok(())
 }
 
@@ -38,4 +41,11 @@ pub fn get_word_count(contents: &str) -> HashMap<&str, u32> {
     }
 
     map
+}
+
+pub fn get_max_word<K, V>(map: &HashMap<K, V>) -> Option<(&K, &V)>
+where
+    V: Ord,
+{
+    map.iter().max_by(|a, b| a.1.cmp(&b.1)).map(|(k, v)| (k, v))
 }
