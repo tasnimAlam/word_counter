@@ -18,6 +18,9 @@ pub struct Opt {
     #[structopt(parse(from_os_str))]
     input: PathBuf,
 
+    #[structopt(short, long)]
+    reverse: bool,
+
     /// Output file
     #[structopt(short, long, parse(from_os_str))]
     output: Option<PathBuf>,
@@ -37,7 +40,11 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
 
     // Sort the result in descending order
     let mut result = sort_hashmap(&counts);
-    result.reverse();
+
+    // Reverse the search order
+    if !opt.reverse {
+        result.reverse();
+    }
 
     // Show only the top results
     result.truncate(opt.top);
