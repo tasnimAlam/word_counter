@@ -38,6 +38,8 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
     // Sort the result in descending order
     let mut result = sort_hashmap(&counts);
     result.reverse();
+
+    // Show only the top results
     result.truncate(opt.top);
 
     println!("'{}' is counted maximum {} times", largest, max_count);
