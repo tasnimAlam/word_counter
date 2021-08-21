@@ -4,6 +4,9 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::PathBuf;
 use structopt::StructOpt;
+#[macro_use]
+extern crate prettytable;
+use prettytable::Table;
 
 #[derive(Debug, StructOpt)]
 #[structopt(
@@ -85,9 +88,16 @@ where
 
 // FIXME: need to check "&&str"
 pub fn print_counts(vec: &Vec<(&&str, &u32)>) {
+    // Create the table
+    let mut table = Table::new();
+    table.add_row(row!["Word", "Count"]);
+
     for (key, value) in vec {
-        println!("{}:{}", key, value);
+        table.add_row(row![&key, &value]);
     }
+
+    // Print the table to stdout
+    table.printstd();
 }
 
 #[cfg(test)]
