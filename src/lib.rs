@@ -2,25 +2,30 @@ use std::collections::HashMap;
 use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::PathBuf;
+use structopt::StructOpt;
 
-pub struct Config {
-    pub filename: String,
+#[derive(Debug, StructOpt)]
+#[structopt(
+    name = "word_counter",
+    about = "A program that displays word count of a file."
+)]
+pub struct Opt {
+    #[structopt(short = "t", long = "--top", default_value = "10")]
+    top: usize,
+
+    /// Input file
+    #[structopt(parse(from_os_str))]
+    input: PathBuf,
+
+    /// Output file
+    #[structopt(short, long, parse(from_os_str))]
+    output: Option<PathBuf>,
 }
 
-impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 2 {
-            return Err("not enough arguments");
-        }
-        let filename = args[1].clone();
-
-        Ok(Config { filename })
-    }
-}
-
-pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
     // Read contents from file
-    let mut f = File::open(config.filename)?;
+    let mut f = File::open(opt.input)?;
     let mut contents = String::new();
     f.read_to_string(&mut contents)?;
 
@@ -33,7 +38,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     // Sort the result in descending order
     let mut result = sort_hashmap(&counts);
     result.reverse();
-    result.truncate(10); // Show 10 result by default
+    result.truncate(opt.top);
 
     println!("'{}' is counted maximum {} times", largest, max_count);
     print_counts(&result);
