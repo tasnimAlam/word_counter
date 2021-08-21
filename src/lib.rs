@@ -1,3 +1,7 @@
+//! # Word Counter
+//!
+//! A program that displays word count of a file.
+
 use std::collections::HashMap;
 use std::error::Error;
 use std::fs::File;

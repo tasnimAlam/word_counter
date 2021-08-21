@@ -1,7 +1,10 @@
 [package]
 name = "word_counter"
 version = "0.1.0"
+authors = ["Tasnim Alam <tasnimalamcse@gmail.com>"]
+description = "A program that displays word count of a file."
 edition = "2018"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
