@@ -31,11 +31,12 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let (largest, max_count) = get_max_word(&counts).unwrap();
 
     // Sort the result in descending order
-    let mut sorted = sort_hashmap(&counts);
-    sorted.reverse();
+    let mut result = sort_hashmap(&counts);
+    result.reverse();
+    result.truncate(10); // Show 10 result by default
 
     println!("'{}' is counted maximum {} times", largest, max_count);
-    print_counts(sorted);
+    print_counts(&result);
 
     Ok(())
 }
@@ -69,7 +70,7 @@ where
 }
 
 // FIXME: need to check "&&str"
-pub fn print_counts(vec: Vec<(&&str, &u32)>) {
+pub fn print_counts(vec: &Vec<(&&str, &u32)>) {
     for (key, value) in vec {
         println!("{}:{}", key, value);
     }
