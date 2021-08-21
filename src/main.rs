@@ -1,20 +1,13 @@
 extern crate word_counter;
 
-use std::env;
 use std::process;
-
-use word_counter::Config;
+use structopt::StructOpt;
+use word_counter::Opt;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    let config = Config::new(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {}", err);
-        process::exit(1);
-    });
-
-    println!("filename: {}", config.filename);
-
-    if let Err(e) = word_counter::run(config) {
+    let opt = Opt::from_args();
+    println!("{:?}", opt);
+    if let Err(e) = word_counter::run(opt) {
         println!("Application error: {}", e);
         process::exit(1);
     }
