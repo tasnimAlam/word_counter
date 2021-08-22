@@ -4,8 +4,13 @@ A program that displays word count of a file.
 # Example
 ## Usage
 ```console
-$ ./word_counter poem.txt --top 6
-'the' is counted maximum 4 times
+$ ./word_counter poem.txt --top 4 --search lover
++---------------+-------+---+
+| Search result | lover | 3 |
++---------------+-------+---+
++---------------+-----+---+
+| Maximum count | the | 4 |
++---------------+-----+---+
 +-------+-------+
 | Word  | Count |
 +-------+-------+
@@ -14,10 +19,6 @@ $ ./word_counter poem.txt --top 6
 | and   | 3     |
 +-------+-------+
 | God   | 3     |
-+-------+-------+
-| to    | 3     |
-+-------+-------+
-| is    | 3     |
 +-------+-------+
 | lover | 3     |
 +-------+-------+
@@ -34,14 +35,14 @@ USAGE:
 
 FLAGS:
     -h, --help       Prints help information
-    -r, --reverse    
+    -r, --reverse    Reverse order
     -V, --version    Prints version information
 
 OPTIONS:
     -o, --output <output>    Output file
+    -s, --search <search>    Search specific word
     -t, --top <top>           [default: 10]
 
 ARGS:
     <input>    Input file
-
 ```
