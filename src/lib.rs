@@ -25,9 +25,11 @@ pub struct Opt {
     #[structopt(parse(from_os_str))]
     input: PathBuf,
 
+    /// Reverse order
     #[structopt(short, long)]
     reverse: bool,
 
+    /// Search specific word
     #[structopt(short = "s", long = "--search")]
     search: Option<String>,
 
@@ -56,6 +58,7 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
         let no_result = (&searched_word[..], 0 as u32);
         let (word, count) = get_search_word(&counts, &searched_word).unwrap_or(no_result);
 
+        //  Create search result table
         let mut table = Table::new();
         table.add_row(row!["Search result", &word, &count]);
         table.printstd();
@@ -72,9 +75,12 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
     // Show only the top results
     result.truncate(opt.top);
 
+    // Create table for maximum word count
     let mut table = Table::new();
     table.add_row(row!["Maximum count", &largest, &max_count]);
     table.printstd();
+
+    // Print count table
     print_counts(&result);
 
     Ok(())
