@@ -1,6 +1,23 @@
 # Word Counter
 A program that displays word count of a file. 
 
+# Instllation
+
+## Package Managers
+### Linux
+```console
+# Cargo
+cargo install word_counter
+```
+
+### MacOs
+```console
+# Homebrew
+brew tap tasnimAlam/word-counter
+brew install tasnimAlam/word-counter/word_counter 
+```
+
+
 # Example
 ## Usage
 ```console
