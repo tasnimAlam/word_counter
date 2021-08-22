@@ -6,6 +6,7 @@ use word_counter::Opt;
 
 fn main() {
     let opt = Opt::from_args();
+    // println!("{:?}", opt);
     if let Err(e) = word_counter::run(opt) {
         println!("Application error: {}", e);
         process::exit(1);

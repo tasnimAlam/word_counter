@@ -28,6 +28,9 @@ pub struct Opt {
     #[structopt(short, long)]
     reverse: bool,
 
+    #[structopt(short = "s", long = "--search")]
+    search: Option<String>,
+
     /// Output file
     #[structopt(short, long, parse(from_os_str))]
     output: Option<PathBuf>,
@@ -45,6 +48,19 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
     // Get maximum counted word
     let (largest, max_count) = get_max_word(&counts).unwrap();
 
+    // Get searched word counts
+    let search: Option<String> = opt.search;
+
+    if let Some(i) = search {
+        let searched_word = String::from(i);
+        let no_result = (&searched_word[..], 0 as u32);
+        let (word, count) = get_search_word(&counts, &searched_word).unwrap_or(no_result);
+
+        let mut table = Table::new();
+        table.add_row(row!["Search result", &word, &count]);
+        table.printstd();
+    }
+
     // Sort the result in descending order
     let mut result = sort_hashmap(&counts);
 
@@ -56,7 +72,9 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
     // Show only the top results
     result.truncate(opt.top);
 
-    println!("'{}' is counted maximum {} times", largest, max_count);
+    let mut table = Table::new();
+    table.add_row(row!["Maximum count", &largest, &max_count]);
+    table.printstd();
     print_counts(&result);
 
     Ok(())
@@ -88,6 +106,16 @@ where
     V: Ord,
 {
     map.iter().max_by(|a, b| a.1.cmp(&b.1)).map(|(k, v)| (k, v))
+}
+
+pub fn get_search_word<'a>(map: &'a HashMap<&'a str, u32>, query: &str) -> Option<(&'a str, u32)> {
+    map.iter().find_map(|(&key, val)| {
+        if key == query {
+            Some((key, *val))
+        } else {
+            None
+        }
+    })
 }
 
 // FIXME: need to check "&&str"
