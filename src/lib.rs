@@ -160,6 +160,20 @@ mod tests {
     }
 
     #[test]
+    fn it_gets_searched_word() {
+        let mut demo_counts = HashMap::new();
+        demo_counts.insert("One", 1);
+        demo_counts.insert("Two", 2);
+
+        let searched_word = String::from("Two");
+        let no_result = (&searched_word[..], 2 as u32);
+        let (word, count) = get_search_word(&demo_counts, &searched_word).unwrap_or(no_result);
+
+        assert_eq!(word, "Two");
+        assert_eq!(count, 2);
+    }
+
+    #[test]
     fn it_sorts_hashmap() {
         let mut map = HashMap::new();
         map.insert("One", 1);
