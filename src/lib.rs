@@ -33,6 +33,10 @@ pub struct Opt {
     #[structopt(short = "s", long = "--search")]
     search: Option<String>,
 
+    /// Should show maximum occurrences of a word
+    #[structopt(short = "m", long = "--max")]
+    show_max: bool,
+
     /// Output file
     #[structopt(short, long, parse(from_os_str))]
     output: Option<PathBuf>,
@@ -46,9 +50,6 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
 
     // Get word with counts
     let counts = get_word_count(&contents);
-
-    // Get maximum counted word
-    let (largest, max_count) = get_max_word(&counts).unwrap();
 
     // Get searched word counts
     let search: Option<String> = opt.search;
@@ -75,10 +76,15 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
     // Show only the top results
     result.truncate(opt.top);
 
-    // Create table for maximum word count
-    let mut table = Table::new();
-    table.add_row(row!["Maximum count", &largest, &max_count]);
-    table.printstd();
+    // Show maximum counted word
+    if opt.show_max {
+        let (max_word, max_count) = get_max_word(&counts).unwrap();
+
+        // Create table for maximum word count
+        let mut table = Table::new();
+        table.add_row(row!["Maximum count", &max_word, &max_count]);
+        table.printstd();
+    }
 
     // Print count table
     print_counts(&result);
