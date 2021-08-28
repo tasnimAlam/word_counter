@@ -64,7 +64,7 @@ FLAGS:
 OPTIONS:
     -o, --output <output>    Output file
     -s, --search <search>    Search specific word
-    -t, --top <top>           [default: 10]
+    -t, --top <top>          Top result limit [default: 10]
 
 ARGS:
     <input>    Input file

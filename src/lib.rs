@@ -18,6 +18,7 @@ use prettytable::Table;
     about = "A program that displays word count of a file."
 )]
 pub struct Opt {
+    /// Top result limit
     #[structopt(short = "t", long = "--top", default_value = "10")]
     top: usize,
 
