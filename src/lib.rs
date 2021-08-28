@@ -33,7 +33,7 @@ pub struct Opt {
     #[structopt(short = "s", long = "--search")]
     search: Option<String>,
 
-    /// Should show maximum occurrences of a word
+    /// Show most counted word
     #[structopt(short = "m", long = "--max")]
     show_max: bool,
 
