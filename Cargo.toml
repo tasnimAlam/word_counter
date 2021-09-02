@@ -1,10 +1,10 @@
 [package]
 name = "word_counter"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Tasnim Alam <tasnimalamcse@gmail.com>"]
 description = "A program that displays word count of a file."
 repository = "https://github.com/tasnimAlam/word_counter"
-keywords = ["word", "counter", "cli"]
+keywords = ["word", "counter", "word_counter", "cli"]
 edition = "2018"
 license = "MIT"
 
