@@ -7,6 +7,7 @@ use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::PathBuf;
+use std::time::Instant;
 use structopt::StructOpt;
 #[macro_use]
 extern crate prettytable;
@@ -38,12 +39,17 @@ pub struct Opt {
     #[structopt(short = "m", long = "--max")]
     show_max: bool,
 
+    /// Duration of all the calculations
+    #[structopt(short = "d", long = "--duration")]
+    duration: bool,
+
     /// Output file
     #[structopt(short, long, parse(from_os_str))]
     output: Option<PathBuf>,
 }
 
 pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
+    let time = Instant::now();
     // Read contents from file
     let mut f = File::open(opt.input)?;
     let mut contents = String::new();
@@ -89,6 +95,11 @@ pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
 
     // Print count table
     print_counts(&result);
+
+    // Print program duration
+    if opt.duration {
+        println!("Duration : {}ms", time.elapsed().as_millis());
+    }
 
     Ok(())
 }

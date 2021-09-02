@@ -26,7 +26,7 @@ brew install tasnimAlam/word-counter/word_counter
 ## Usage
 
 ```console
-$ ./word_counter poem.txt --top 4 --search lover
+$ ./word_counter poem.txt --top 4 --search lover --max --duration
 +---------------+-------+---+
 | Search result | lover | 3 |
 +---------------+-------+---+
@@ -44,6 +44,7 @@ $ ./word_counter poem.txt --top 4 --search lover
 +-------+-------+
 | lover | 3     |
 +-------+-------+
+Duration : 2ms 
 ```
 
 ## Options
@@ -56,10 +57,11 @@ USAGE:
     word_counter [FLAGS] [OPTIONS] <input>
 
 FLAGS:
-    -h, --help       Prints help information
-    -r, --reverse    Reverse order
-    -m, --max        Show most counted word
-    -V, --version    Prints version information
+    -d, --duration    Duration of all the calculations
+    -h, --help        Prints help information
+    -r, --reverse     Reverse order
+    -m, --max         Show most counted word
+    -V, --version     Prints version information
 
 OPTIONS:
     -o, --output <output>    Output file
