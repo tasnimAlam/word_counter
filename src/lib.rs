@@ -50,51 +50,54 @@ pub struct Opt {
 
 pub fn run(opt: Opt) -> Result<(), Box<dyn Error>> {
     let time = Instant::now();
+
     // Read contents from file
     let mut f = File::open(opt.input)?;
     let mut contents = String::new();
     f.read_to_string(&mut contents)?;
 
-    // Get word with counts
-    let counts = get_word_count(&contents);
-
     // Get searched word counts
     let search: Option<String> = opt.search;
 
+    // When there is no word to search, count all words
+    if let None = search {
+        let counts = get_word_count(&contents);
+
+        // Sort the result in descending order
+        let mut result = sort_hashmap(&counts);
+
+        // Reverse the search order
+        if !opt.reverse {
+            result.reverse();
+        }
+
+        // Show only the top results
+        result.truncate(opt.top);
+
+        // Show maximum counted word
+        if opt.show_max {
+            let (max_word, max_count) = get_max_word(&counts).unwrap();
+
+            // Create table for maximum word count
+            let mut table = Table::new();
+            table.add_row(row!["Maximum count", &max_word, &max_count]);
+            table.printstd();
+        }
+
+        // Print count table
+        print_counts(&result);
+    }
+
+    // When there is a word to search, only count that word
     if let Some(i) = search {
         let searched_word = String::from(i);
-        let no_result = (&searched_word[..], 0 as u32);
-        let (word, count) = get_search_word(&counts, &searched_word).unwrap_or(no_result);
+        let count = get_search_count(&searched_word, &contents);
 
         //  Create search result table
         let mut table = Table::new();
-        table.add_row(row!["Search result", &word, &count]);
+        table.add_row(row!["Search result", &searched_word, &count]);
         table.printstd();
     }
-
-    // Sort the result in descending order
-    let mut result = sort_hashmap(&counts);
-
-    // Reverse the search order
-    if !opt.reverse {
-        result.reverse();
-    }
-
-    // Show only the top results
-    result.truncate(opt.top);
-
-    // Show maximum counted word
-    if opt.show_max {
-        let (max_word, max_count) = get_max_word(&counts).unwrap();
-
-        // Create table for maximum word count
-        let mut table = Table::new();
-        table.add_row(row!["Maximum count", &max_word, &max_count]);
-        table.printstd();
-    }
-
-    // Print count table
-    print_counts(&result);
 
     // Print program duration
     if opt.duration {
@@ -156,6 +159,18 @@ pub fn print_counts(vec: &Vec<(&&str, &u32)>) {
     table.printstd();
 }
 
+pub fn get_search_count(text: &str, contents: &str) -> u32 {
+    let mut count = 0;
+
+    for word in contents.split_whitespace() {
+        if word == text {
+            count += 1;
+        }
+    }
+
+    count
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -210,5 +225,13 @@ mod tests {
         assert_eq!(demo_counts.len(), sorted_counts.len());
         assert_eq!(demo_counts[0].1, *sorted_counts[1].1);
         assert_eq!(demo_counts[1].0, *sorted_counts[0].0);
+    }
+
+    #[test]
+    fn it_gets_search_count() {
+        let contents = "one one two two one one";
+        let text = "one";
+
+        assert_eq!(get_search_count(&text, &contents), 4);
     }
 }
