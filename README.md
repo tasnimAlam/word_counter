@@ -26,10 +26,7 @@ brew install tasnimAlam/word-counter/word_counter
 ## Usage
 
 ```console
-$ ./word_counter poem.txt --top 4 --search lover --max --duration
-+---------------+-------+---+
-| Search result | lover | 3 |
-+---------------+-------+---+
+$ ./word_counter poem.txt --top 4 --max --duration
 +---------------+-----+---+
 | Maximum count | the | 4 |
 +---------------+-----+---+
@@ -44,7 +41,7 @@ $ ./word_counter poem.txt --top 4 --search lover --max --duration
 +-------+-------+
 | lover | 3     |
 +-------+-------+
-Duration : 2ms 
+Duration : 2ms
 ```
 
 ## Options
