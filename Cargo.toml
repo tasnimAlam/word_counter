@@ -5,7 +5,7 @@ authors = ["Tasnim Alam <tasnimalamcse@gmail.com>"]
 description = "A program that displays word count of a file."
 repository = "https://github.com/tasnimAlam/word_counter"
 keywords = ["word", "counter", "word_counter", "cli"]
-edition = "2018"
+edition = "2021"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
